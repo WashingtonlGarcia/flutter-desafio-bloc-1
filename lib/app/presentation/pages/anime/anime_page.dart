@@ -1,10 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../data/datasources/anime_remote_data_source_impl.dart';
-import '../../../data/repositories/anime_repository_impl.dart';
+import '../../../core/laucher/laucher.dart';
 import '../../../domain/usecases/get_anime_posts.dart';
-import '../../../infra/http/http_client_impl.dart';
 import '../../blocs/anime/anime_bloc.dart';
 import 'widgets/widgets.dart';
 
@@ -12,8 +9,7 @@ class AnimePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AnimeBloc(
-          usecase: GetAnimePost(repository: AnimeRepositoryImpl(dataSource: AnimeRemoteDataSourceImpl(httpClient: HttpClientImpl(dio: Dio()))))),
+      create: (context) => AnimeBloc(usecase: context.read<GetAnimePost>()),
       child: _AnimePage(),
     );
   }
@@ -67,7 +63,7 @@ class __AnimePageState extends State<_AnimePage> {
                   final anime = state.animes[index];
                   return Column(
                     children: [
-                      ListTileAnimeWidget(anime: anime, onTap: () {}),
+                      ListTileAnimeWidget(anime: anime, onTap: Launcher.navigatetoLink(link: anime.link)),
                       if (!state.hasReachedMax && index == state.animes.length - 1)
                         ...[const SizedBox(height: 8), const CircularProgressIndicator()].toList()
                     ],

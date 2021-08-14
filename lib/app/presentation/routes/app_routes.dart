@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart' show RouteSettings, Route, MaterialPageRoute;
 
+import '../pages/anime/anime_page.dart';
+
 part 'app_route_name.dart';
 
 class AppRoutes {
@@ -9,7 +11,7 @@ class AppRoutes {
     switch (settings.name) {
       case AppRouteName.anime:
       default:
-        return MaterialPageRoute(builder: (context) => throw UnimplementedError(), settings: settings);
+        return MaterialPageRoute(builder: (context) => AnimePage(), settings: settings);
     }
   }
 }

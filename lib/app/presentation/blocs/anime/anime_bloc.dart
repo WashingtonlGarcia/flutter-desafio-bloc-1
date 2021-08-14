@@ -18,12 +18,12 @@ class AnimeBloc extends Bloc<AnimeEvent, AnimeState> {
 
   @override
   Stream<AnimeState> mapEventToState(AnimeEvent event) async* {
-    if (event is AnimeSearchingEvent) {
-      yield* mapSearchingEventToState(event);
+    if (event is AnimeFetchEvent) {
+      yield* mapFetchEventToState(event);
     }
   }
 
-  Stream<AnimeState> mapSearchingEventToState(AnimeSearchingEvent event) async* {
+  Stream<AnimeState> mapFetchEventToState(AnimeFetchEvent event) async* {
     final List<AnimeEntity> animes = [];
     if (state is AnimeSuccessState) {
       if ((state as AnimeSuccessState).hasReachedMax) yield state;
@@ -31,6 +31,7 @@ class AnimeBloc extends Bloc<AnimeEvent, AnimeState> {
       animes.addAll(currentAnimes);
     }
     _page++;
+    if (_page == 1) yield AnimeLoadingState();
     final response = await usecase.call(params: AnimePostParams(page: _page));
     yield response.fold((l) {
       if (l is BadRequestFailure) return AnimeSuccessState(animes: animes, hasReachedMax: true);

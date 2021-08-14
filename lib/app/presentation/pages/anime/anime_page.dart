@@ -34,7 +34,7 @@ class __AnimePageState extends State<_AnimePage> {
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(() {
-      if (_isBottom) context.read<AnimeBloc>().add(AnimeSearchingEvent());
+      if (_isBottom) context.read<AnimeBloc>().add(AnimeFetchEvent());
     });
     super.initState();
   }
@@ -52,7 +52,7 @@ class __AnimePageState extends State<_AnimePage> {
         title: const Text('Anime'),
       ),
       body: BlocBuilder<AnimeBloc, AnimeState>(
-        bloc: context.read<AnimeBloc>()..add(AnimeSearchingEvent()),
+        bloc: context.read<AnimeBloc>()..add(AnimeFetchEvent()),
         builder: (context, state) {
           if (state is AnimeSuccessState) {
             return ListView.separated(

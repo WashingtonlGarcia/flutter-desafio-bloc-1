@@ -1,5 +1,7 @@
+
+import 'package:desafio_bloc_1/app/features/anime/external/external.dart';
 import 'package:dio/dio.dart';
-import '../../core/errors/exceptions.dart';
+
 import 'http_client.dart';
 
 class HttpClientImpl implements HttpClient {

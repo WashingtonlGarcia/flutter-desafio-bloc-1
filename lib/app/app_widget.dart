@@ -1,22 +1,35 @@
-import 'package:desafio_bloc_1/app/data/datasources/anime_remote_data_source_impl.dart';
-import 'package:desafio_bloc_1/app/data/repositories/anime_repository_impl.dart';
-import 'package:desafio_bloc_1/app/domain/usecases/get_anime_posts.dart';
-import 'package:desafio_bloc_1/app/infra/http/http_client_impl.dart';
+import 'package:desafio_bloc_1/app/core/http/http_client.dart';
+import 'package:desafio_bloc_1/app/core/http/http_client_impl.dart';
+import 'package:desafio_bloc_1/app/features/anime/presentation/blocs/anime/anime_bloc.dart';
+import 'package:desafio_bloc_1/app/features/anime/presentation/routes/app_routes.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'presentation/routes/app_routes.dart';
+
+import 'features/anime/external/external.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) =>
-          GetAnimePost(repository: AnimeRepositoryImpl(dataSource: AnimeRemoteDataSourceImpl(httpClient: HttpClientImpl(dio: Dio())))),
-      child: const MaterialApp(
-        onGenerateRoute: AppRoutes.onGenerateRoute,
+    // DI
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(create: (context) => Dio()),
+        RepositoryProvider<HttpClient>(create: (context) => HttpClientImpl(dio: context.read())),
+        RepositoryProvider<AnimeRemoteDataSource>(create: (context) => AnimeRemoteDataSourceImpl(httpClient: context.read())),
+        RepositoryProvider<AnimeRepository>(create: (context) => AnimeRepositoryImpl(dataSource: context.read())),
+        RepositoryProvider<GetAnimePost>(create: (context) => GetAnimePostImpl(repository: context.read())),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => AnimeBloc(usecase: context.read())),
+        ],
+        child: const MaterialApp(
+          title: 'Desafio Bloc 1',
+          onGenerateRoute: AppRoutes.onGenerateRoute,
+        ),
       ),
     );
   }

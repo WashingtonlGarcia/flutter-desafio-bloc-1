@@ -1,16 +1,27 @@
-# desafio_bloc_1
+<img alt="Flutter" src="assets/images/wallpaper.png"/>
 
-A new Flutter project.
+<h3 align="center">
+    BloC Challenge 1
+</h3>
 
-## Getting Started
+<blockquote align="center">“Nothing in the world beats persistence.”!</blockquote>
 
-This project is a starting point for a Flutter application.
+## :rocket: About
+Consume an Api Rest using BLoC, REPOSITORY/DATASOURCE:
+```
+https://www.intoxianime.com/?rest_route=/wp/v2/posts&page=1&per_page=10
+```
+- page: This variable can go from 1 to 100 and represents the amount of items that the api will bring.
+- per_page: Number of items per page.
 
-A few resources to get you started if this is your first Flutter project:
+Rules:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- Use BLoC pattern.
+- Use default repository with Datasource.
+- Use the infinite list (when you reach the end, load more items).
+- Does not violate SOLID principles.
+- No specific architecture is required.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## :memo: License
+
+This project is under license from MIT. See the [LICENSE](LICENSE) file for more details.

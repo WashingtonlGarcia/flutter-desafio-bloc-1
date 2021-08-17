@@ -1,6 +1,7 @@
-import 'package:desafio_bloc_1/app/core/laucher/laucher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../core/laucher/laucher.dart';
 import '../../blocs/anime/anime_bloc.dart';
 import 'widgets/widgets.dart';
 

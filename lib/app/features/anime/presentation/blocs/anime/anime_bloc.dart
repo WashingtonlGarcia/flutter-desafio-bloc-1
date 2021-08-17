@@ -2,12 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 
-import 'package:desafio_bloc_1/app/features/anime/domain/dtos/anime_post_dto.dart';
-import 'package:desafio_bloc_1/app/features/anime/domain/errors/failures.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../domain/entities/anime_entity.dart';
-import '../../../domain/usecases/get_anime_posts.dart';
+import '../../../domain/domain.dart';
 
 part 'anime_event.dart';
 

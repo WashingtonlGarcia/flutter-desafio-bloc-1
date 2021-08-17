@@ -8,4 +8,8 @@ class AnimeAdapter {
       link: map['link'] as String,
     );
   }
+
+  static List<AnimeEntity> fromList({required List<Map<String, dynamic>> list}) {
+    return list.map((Map<String, dynamic> map) => fromMap(map: map)).toList();
+  }
 }

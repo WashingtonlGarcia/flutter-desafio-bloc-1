@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../domain/entities/anime_entity.dart';
+import '../../../../domain/domain.dart';
 
 class ListTileAnimeWidget extends StatelessWidget {
   final AnimeEntity anime;

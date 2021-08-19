@@ -28,13 +28,35 @@ void main() {
   });
 
   blocTest<AnimeBloc, AnimeState>(
-    'should return a list animes From the usecase',
+    'should return a AnimeEntity From the usecase',
     build: () => sut,
     act: (bloc) async {
-      when(() => usecase(dto: any(named: 'dto'))).thenAnswer((invocation) async => Right(animes));
+      when(() => usecase(dto: const AnimePostDto(page: 1))).thenAnswer((invocation) async => Right(animes));
 
       bloc.add(AnimeFetchEvent());
     },
     expect: () => [AnimeLoadingState(), AnimeSuccessState(animes: animes, hasReachedMax: false)],
+  );
+
+  blocTest<AnimeBloc, AnimeState>(
+    'should return a AnimeEntity From the usecase',
+    build: () => sut,
+    act: (bloc) async {
+      when(() => usecase(dto: const AnimePostDto(page: 1))).thenAnswer((invocation) async => Right(animes));
+      when(() => usecase(dto: const AnimePostDto(page: 2))).thenAnswer((invocation) async => Right(animes));
+      bloc..add(AnimeFetchEvent())..add(AnimeFetchEvent());
+    },
+    skip: 2,
+    expect: () => [AnimeSuccessState(animes: animes.map((anime) => anime).toList()..addAll(animes), hasReachedMax: false)],
+  );
+
+  blocTest<AnimeBloc, AnimeState>(
+    'should return a failure',
+    build: () => sut,
+    act: (bloc) async {
+      when(() => usecase(dto: const AnimePostDto(page: 1))).thenAnswer((invocation) async => Left(ServerFailure()));
+      bloc.add(AnimeFetchEvent());
+    },
+    expect: () => [AnimeLoadingState(), AnimeFailureState()],
   );
 }

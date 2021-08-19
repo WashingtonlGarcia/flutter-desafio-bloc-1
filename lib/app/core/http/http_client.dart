@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 abstract class HttpClient {
-  Future<HttpResponse> get({required String url, Map<String, String>? headers});
+  Future<HttpResponse> get({required String url});
 }
 
 class HttpResponse extends Equatable {

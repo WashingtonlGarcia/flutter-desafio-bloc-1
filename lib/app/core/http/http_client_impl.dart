@@ -10,9 +10,9 @@ class HttpClientImpl implements HttpClient {
   HttpClientImpl({required this.dio});
 
   @override
-  Future<HttpResponse> get({required String url, Map<String, String>? headers}) async {
+  Future<HttpResponse> get({required String url}) async {
     try {
-      final response = await dio.get(url, options: Options(headers: headers));
+      final response = await dio.get(url);
       return HttpResponse(data: response.data, code: response.statusCode);
     } on DioError catch (error) {
       throw error.response!.statusCode == 400 ? BadRequestException() : ServerException();

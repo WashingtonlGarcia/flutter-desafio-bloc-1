@@ -11,18 +11,27 @@ void main() {
   late DioSpy dio;
   late HttpClientImpl sut;
   late String url;
+
   setUp(() {
     dio = DioSpy();
     sut = HttpClientImpl(dio: dio);
     url = faker.internet.httpsUrl();
   });
 
-  test('', () {
-    when(() => dio.get(url, options: Options(headers: any(named: 'headers')))).thenThrow(
-        DioError(response: Response(statusCode: 400, requestOptions: RequestOptions(path: url)), requestOptions: RequestOptions(path: url)));
+  test('should return ServerException exception', () {
+    when(() => dio.get(url)).thenThrow(Exception());
 
     final response = sut.get(url: url);
 
-    expect(response, throwsA(ServerException()));
+    expect(response, throwsA(isA<ServerException>()));
+  });
+
+  test('should return BadRequestException exception', () {
+    when(() => dio.get(url)).thenThrow(
+        DioError(requestOptions: RequestOptions(path: url), response: Response(statusCode: 400, requestOptions: RequestOptions(path: url))));
+
+    final response = sut.get(url: url);
+
+    expect(response, throwsA(isA<BadRequestException>()));
   });
 }

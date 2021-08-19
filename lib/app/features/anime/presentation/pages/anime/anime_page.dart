@@ -25,11 +25,11 @@ class _AnimePageState extends State<AnimePage> {
     if (state is AnimeSuccessState) {
       child = BodySuccess(state: state);
     } else if (state is AnimeLoadingState) {
-      child = const Center(child: CircularProgressIndicator());
+      child = const BodyLoading();
     } else if (state is AnimeFailureState) {
-      child = const Center(child: Text('Failure'));
+      child = const BodyFailure();
     } else {
-      child = const SizedBox.shrink();
+      child = const BodyInitial();
     }
     return Scaffold(
       appBar: AppBar(
@@ -37,6 +37,35 @@ class _AnimePageState extends State<AnimePage> {
       ),
       body: child,
     );
+  }
+}
+
+class BodyInitial extends StatelessWidget {
+  const BodyInitial({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox.shrink();
+  }
+}
+
+class BodyFailure extends StatelessWidget {
+  final String? message;
+
+  const BodyFailure({Key? key, this.message}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text(message ?? 'Um erro inesperado!'));
+  }
+}
+
+class BodyLoading extends StatelessWidget {
+  const BodyLoading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: CircularProgressIndicator());
   }
 }
 

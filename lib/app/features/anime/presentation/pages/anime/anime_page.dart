@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/laucher/laucher.dart';
 import '../../blocs/anime/anime_bloc.dart';
+import '../../theme/app_theme.dart';
 import 'widgets/widgets.dart';
 
 class AnimePage extends StatefulWidget {
@@ -32,9 +33,8 @@ class _AnimePageState extends State<AnimePage> {
       child = const BodyInitial();
     }
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Anime'),
-      ),
+      backgroundColor: AppTheme.colors.background,
+      appBar: CustomAppBarWidget(title: 'Anime'),
       body: child,
     );
   }
@@ -56,7 +56,7 @@ class BodyFailure extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text(message ?? 'Um erro inesperado!'));
+    return Center(child: Text(message ?? 'Um erro inesperado!', style: AppTheme.textStyles.messageFailure));
   }
 }
 
@@ -65,7 +65,7 @@ class BodyLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    return  Center(child: CustomCircularIndicatorWidget());
   }
 }
 
@@ -116,15 +116,15 @@ class _BodySuccessState extends State<BodySuccess> {
           return Column(
             children: [
               ListTileAnimeWidget(
-                anime: anime,
+                title: anime.title.trimLeft(),
                 onTap: Launcher.navigatetoLink(link: anime.link),
               ),
               Visibility(
                 visible: !state.hasReachedMax && index == state.animes.length - 1,
                 child: Column(
-                  children: const [
-                    SizedBox(height: 8),
-                    CircularProgressIndicator(),
+                  children:  [
+                    const SizedBox(height: 8),
+                    CustomCircularIndicatorWidget(),
                   ],
                 ),
               )
